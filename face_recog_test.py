@@ -6,7 +6,7 @@ import json
 # Get a reference to webcam #0 (the default one)
 video_capture = cv2.VideoCapture(0)
 
-with open('E:\\iot project\\names_face_encodings.json',"r",encoding="utf-8") as f:
+with open('names_face_encodings.json',"r",encoding="utf-8") as f:
   names_encodings = json.load(f)
 
 # Load arrays of known face encodings and their names from the above json file
@@ -100,7 +100,11 @@ for val in prev_face_names:
 
 # Store status of each person into dictionary
 attendance_status = {}
-prev_face_names = filter(lambda x: x != "Unknown", prev_face_names)
+prev_face_names = list(filter(lambda x: x != "Unknown", prev_face_names))
+
+# print(prev_face_names)
+# print("All students: ", known_face_names)
+
 for val in known_face_names:
     if val in prev_face_names:
         attendance_status[val] = "Present"
@@ -108,7 +112,7 @@ for val in known_face_names:
         attendance_status[val] = "Absent"
 
 # write the attendance_status dictionary into a json file
-with open('E:\\iot project\\att_status.json', 'w', encoding='utf-8') as json_file:
+with open('att_status.json', 'w', encoding='utf-8') as json_file:
   json.dump(attendance_status, json_file)
 
 # Release handle to the webcam
